@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For You ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+overflow-x:hidden;
+background:#fff;
+}
+
+section{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:30px;
+position:relative;
+overflow:hidden;
+}
+
+.hidden{
+display:none;
+}
+
+button{
+border:none;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+/* FLOATING PETALS */
+
+.petals{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:999;
+overflow:hidden;
+}
+
+.petal{
+position:absolute;
+top:-10vh;
+font-size:24px;
+animation:fall linear infinite;
+opacity:0.8;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(-10vh) rotate(0deg);
+}
+100%{
+transform:translateY(110vh) rotate(360deg);
+}
+}
+
+/* WELCOME */
+
+#welcome{
+background:white;
+text-align:center;
+}
+
+#welcome h1{
+font-family:'Dancing Script',cursive;
+font-size:52px;
+margin-bottom:40px;
+color:#333;
+}
+
+.welcome-buttons{
+display:flex;
+gap:60px;
+}
+
+.yes-btn{
+font-size:42px;
+background:none;
+color:#b26ad6;
+font-family:'Dancing Script',cursive;
+font-weight:bold;
+}
+
+.no-btn{
+font-size:42px;
+background:none;
+color:red;
+font-weight:800;
+}
+
+/* NO SCREEN */
+
+#noScreen{
+background:#fff6e7;
+text-align:center;
+}
+
+#noScreen h1{
+font-size:50px;
+margin-top:30px;
+}
+
+/* YES SCREEN */
+
+#yesScreen{
+background:linear-gradient(135deg,#d8b4fe,#818cf8);
+text-align:center;
+color:white;
+}
+
+#yesScreen h1{
+font-size:42px;
+max-width:700px;
+line-height:1.4;
+}
+
+.next-btn{
+margin-top:40px;
+padding:14px 40px;
+border-radius:40px;
+font-size:22px;
+background:white;
+color:#7e22ce;
+font-weight:bold;
+}
+
+/* GIFT */
+
+#giftScreen{
+background:linear-gradient(145deg,#6b0000,#b01030,#6b0000);
+color:white;
+}
+
+.gift-box{
+width:180px;
+height:180px;
+background:#fff5f0;
+position:relative;
+border-radius:15px;
+cursor:pointer;
+margin-top:40px;
+animation:float 2s infinite ease-in-out;
+}
+
+.gift-box::before{
+content:'';
+position:absolute;
+width:30px;
+height:180px;
+background:#c41e3a;
+left:50%;
+transform:translateX(-50%);
+}
+
+.gift-box::after{
+content:'';
+position:absolute;
+height:30px;
+width:180px;
+background:#c41e3a;
+top:50%;
+transform:translateY(-50%);
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0px);}
+}
+
+#giftScreen h1{
+font-family:'Dancing Script',cursive;
+font-size:60px;
+text-align:center;
+}
+
+/* HUB */
+
+#hub{
+background:linear-gradient(145deg,#6b0000,#b01030,#6b0000);
+}
+
+.hub-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:25px;
+margin-top:30px;
+}
+
+.hub-card{
+width:140px;
+height:140px;
+background:white;
+border-radius:25px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.hub-card span{
+font-size:50px;
+margin-bottom:10px;
+}
+
+/* MUSIC */
+
+#music{
+background:#080820;
+color:white;
+}
+
+.music-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+width:100%;
+max-width:1100px;
+margin-top:40px;
+}
+
+.song-card{
+background:#111;
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 0 25px rgba(255,255,255,0.08);
+}
+
+.song-card img{
+width:100%;
+height:350px;
+object-fit:cover;
+}
+
+.song-info{
+padding:18px;
+}
+
+audio{
+width:100%;
+margin-top:12px;
+}
+
+/* PHOTOS */
+
+#photos{
+background:linear-gradient(145deg,#6b0000,#b01030,#6b0000);
+}
+
+.photos-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+width:100%;
+max-width:1100px;
+margin-top:40px;
+}
+
+.photos-grid img{
+width:100%;
+height:380px;
+object-fit:cover;
+border-radius:20px;
+}
+
+/* LETTER */
+
+#letter{
+background:#fff5ef;
+}
+
+.letter-box{
+max-width:750px;
+background:white;
+padding:35px;
+border-radius:25px;
+box-shadow:0 0 25px rgba(0,0,0,0.08);
+line-height:1.9;
+font-size:18px;
+}
+
+.letter-box img{
+width:100%;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+/* ENDING */
+
+#ending{
+background:black;
+color:white;
+text-align:center;
+}
+
+#ending h1{
+font-size:60px;
+margin-bottom:20px;
+}
+
+#ending p{
+font-size:22px;
+opacity:0.8;
+}
+
+#easterEgg{
+position:fixed;
+bottom:20px;
+right:20px;
+opacity:0;
+transition:0.4s;
+font-size:18px;
+color:white;
+}
+
+#easterEgg.show{
+opacity:1;
+}
+
+.back-btn{
+position:absolute;
+top:20px;
+left:20px;
+padding:10px 20px;
+border-radius:30px;
+background:white;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="petals"></div>
+
+<!-- WELCOME -->
+
+<section id="welcome">
+
+<h1>Are you ready for the surprise?</h1>
+
+<div class="welcome-buttons">
+<button class="yes-btn" onclick="showScreen('yesScreen')">yes♡</button>
+<button class="no-btn" onclick="showScreen('noScreen')">NO!</button>
+</div>
+
+</section>
+
+<!-- NO -->
+
+<section id="noScreen" class="hidden">
+
+<button class="back-btn" onclick="showScreen('welcome')">← Back</button>
+
+<div style="font-size:120px;">🦆</div>
+
+<h1>HOW DARE YOU 😡</h1>
+
+</section>
+
+<!-- YES -->
+
+<section id="yesScreen" class="hidden">
+
+<h1>
+I AM SORRY I AM NOT NEAR YOU<br>
+BUT I AM SENDING YOU SOMETHING ❤️
+</h1>
+
+<button class="next-btn" onclick="showScreen('giftScreen')">
+next →
+</button>
+
+</section>
+
+<!-- GIFT -->
+
+<section id="giftScreen" class="hidden">
+
+<h1>Here's a gift box for you 🎁</h1>
+
+<div class="gift-box" onclick="openGift()"></div>
+
+<p style="margin-top:30px;opacity:0.7;">
+Click the gift box
+</p>
+
+</section>
+
+<!-- HUB -->
+
+<section id="hub" class="hidden">
+
+<h1 style="color:white;font-family:'Dancing Script',cursive;font-size:50px;">
+Open Your Gifts 💝
+</h1>
+
+<div class="hub-grid">
+
+<div class="hub-card" onclick="showScreen('music')">
+<span>🎵</span>
+Music
+</div>
+
+<div class="hub-card" onclick="showScreen('photos')">
+<span>📸</span>
+Photos
+</div>
+
+<div class="hub-card" onclick="showScreen('letter')">
+<span>💌</span>
+Letter
+</div>
+
+<div class="hub-card" onclick="showScreen('ending')">
+<span>❤️</span>
+Ending
+</div>
+
+</div>
+
+</section>
+
+<!-- MUSIC -->
+
+<section id="music" class="hidden">
+
+<button class="back-btn" onclick="showScreen('hub')">← Back</button>
+
+<h1>Our Songs 🎵</h1>
+
+<div class="music-grid">
+
+<div class="song-card">
+<img src="photo1.jpg">
+<div class="song-info">
+<h3>teri diwani</h3>
+<p>our vibe ❤️</p>
+<audio controls>
+<source src="song1.mp3" type="audio/mpeg">
+</audio>
+</div>
+</div>
+
+<div class="song-card">
+<img src="photo2.jpg">
+<div class="song-info">
+<h3>dekha hi nhi</h3>
+<p>late night memories 🌙</p>
+<audio controls>
+<source src="song2.mp3" type="audio/mpeg">
+</audio>
+</div>
+</div>
+
+<div class="song-card">
+<img src="photo3.jpg">
+<div class="song-info">
+<h3>dil toh bacha hai</h3>
+<p>only for you ✨</p>
+<audio controls>
+<source src="song3.mp3" type="audio/mpeg">
+</audio>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- PHOTOS -->
+
+<section id="photos" class="hidden">
+
+<button class="back-btn" onclick="showScreen('hub')">← Back</button>
+
+<h1 style="color:white;">Our Memories 📸</h1>
+
+<div class="photos-grid">
+
+<img src="gallery1.jpg">
+<img src="gallery2.jpg">
+<img src="gallery3.jpg">
+<img src="gallery4.jpg">
+
+</div>
+
+</section>
+
+<!-- LETTER -->
+
+<section id="letter" class="hidden">
+
+<button class="back-btn" onclick="showScreen('hub')">← Back</button>
+
+<h1 style="margin-bottom:30px;">A Letter For You 💌</h1>
+
+<div class="letter-box">
+
+<img src="holdinghands.jpg">
+
+<p>
+Siyua baby i am so sorry about my actions and what all i did to you i never meant i have always regreted not talking to you or texting you be it last time or this time.
+</p>
+
+<br>
+
+<p>
+siya i missed you more than u can even think of i swear i genuinely want to apologise for going or as u said abandoning i have always regreted it.
+</p>
+
+<br>
+
+<p>
+i am sorry for this. Siya trust me this time i wont go anywhere i genuinely wont and agr koi ladai bhi huyi ya kuch bhi vaisa hua i will text you pka i wont hide behind my guts.
+</p>
+
+<br>
+
+<p>
+I love you more than words could ever say. Thank you for not letting this end 💕
+</p>
+
+<br>
+
+<p style="text-align:right;">
+Forever yours,<br>
+Your duffer 🌸
+</p>
+
+</div>
+
+</section>
+
+<!-- END -->
+
+<section id="ending" class="hidden">
+
+<h1> happy birthday blossom❤️</h1>
+
+<p>
+No matter where life goes,<br>
+you’ll always be special to me.
+</p>
+
+</section>
+
+<div id="easterEgg">I love you ❤️</div>
+
+<script>
+
+function hideAll(){
+
+document.querySelectorAll('section').forEach(section=>{
+section.classList.add('hidden');
+});
+
+}
+
+function showScreen(id){
+
+hideAll();
+
+document.getElementById(id).classList.remove('hidden');
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+function openGift(){
+
+showScreen('hub');
+
+confetti({
+particleCount:300,
+spread:140,
+origin:{y:0.6}
+});
+
+}
+
+function createPetals(){
+
+const petals=document.querySelector('.petals');
+
+for(let i=0;i<30;i++){
+
+const petal=document.createElement('div');
+
+petal.classList.add('petal');
+
+petal.innerHTML='🌸';
+
+petal.style.left=Math.random()*100+'vw';
+
+petal.style.animationDuration=
+(Math.random()*5+5)+'s';
+
+petal.style.fontSize=
+(Math.random()*20+15)+'px';
+
+petals.appendChild(petal);
+
+}
+
+}
+
+createPetals();
+
+let clicks=0;
+
+document.body.addEventListener('click',()=>{
+
+clicks++;
+
+if(clicks===10){
+
+document.getElementById('easterEgg').classList.add('show');
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
